@@ -16,47 +16,24 @@ class keyboard:
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_z:
-                    self.k['UP'] = 1
+                    self.k = (0, -1)
                 if event.key == pygame.K_s:
-                    self.k['DOWN'] = 1
+                    self.k = (0, 1)
                 if event.key == pygame.K_q:
-                    self.k['LEFT'] = 1
+                    self.k = (-1, 0)
                 if event.key == pygame.K_d:
-                    self.k['RIGHT'] = 1
-
-            if event.type == pygame.KEYUP:
-                if event.key == pygame.K_z:
-                    self.k['UP'] = 0
-                    self.n =1
-                if event.key == pygame.K_s:
-                    self.k['DOWN'] = 0
-                    self.n =1
-                if event.key == pygame.K_q:
-                    self.k['LEFT'] = 0
-                    self.n =1
-                if event.key == pygame.K_d:
-                    self.k['RIGHT'] = 0
-                    self.n =1
+                    self.k = (1, 0)
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_UP:
-                    self.k['HAUT'] = 1
+                    self.k = (0, -1)
                 if event.key == pygame.K_DOWN:
-                    self.k['BAS'] = 1
+                    self.k = (0, 1)
                 if event.key == pygame.K_LEFT:
-                    self.k['GAUCHE'] = 1
+                    self.k = (-1, 0)
                 if event.key == pygame.K_RIGHT:
-                    self.k['DROITE'] = 1
+                    self.k = (1, 0)
 
-            if event.type == pygame.KEYUP:
-                if event.key == pygame.K_UP:
-                    self.k['HAUT'] = 0
-                if event.key == pygame.K_DOWN:
-                    self.k['BAS'] = 0
-                if event.key == pygame.K_LEFT:
-                    self.k['GAUCHE'] = 0
-                if event.key == pygame.K_RIGHT:
-                    self.k['DROITE'] = 0
 
                 if event.key == pygame.K_ESCAPE:
                     self.running = False
