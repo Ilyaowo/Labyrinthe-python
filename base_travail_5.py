@@ -10,10 +10,10 @@ from keyboard import keyboard
 pygame.init()
 
 #constantes
-tilesize = 32 # taille d'une tuile IG
-size = (20, 10) # taille du monde
+tilesize = 8 # taille d'une tuile IG
+size = (90, 90) # taille du monde
 fps = 30 # fps du jeu
-player_speed = 300 # vitesse du joueur
+player_speed = 30 # vitesse du joueur
 next_move = 0 #tic avant déplacement
 next2_move = 0
 
@@ -39,13 +39,13 @@ dt = 0
 show_grid = True
 show_pos = False
 
-direction_player1 = (0, -1)
-direction_player2 = (0, -1)
+direction_player1 = (-1, 0)
+direction_player2 = (1, 0)
 # keys= { "UP":0 , "DOWN":0, "LEFT":0, "RIGHT":0 , "HAUT":0, "BAS":0, "GAUCHE":0, "DROITE":0}
 # kb = keyboard(keys)
 
-player_pos = Pos(0,1)
-player2_pos = Pos(3,3)
+player_pos = Pos(87,45)
+player2_pos = Pos(3,45)
     #
     #   Gestion des I/O  
     #
