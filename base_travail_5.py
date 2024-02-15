@@ -4,6 +4,7 @@ import random
 from labyrinthe import Labyrinthe
 from grid import Grid
 from utils import Pos
+from read_colors import read_color_parameters
 # pygame setup
 pygame.init()
 
@@ -15,12 +16,9 @@ player_speed = 150 # vitesse du joueur
 next_move = 0 #tic avant déplacement
 
 # color
-color = {
-    "ground_color" : "#EDDACF",
-    "grid_color" : "#7F513D",
-    "player_color" : "#9F715D",
-    "wall_color" : "#000000"
-}
+read = read_color_parameters()
+read.readColors("color.ini")
+color = read.c
 
 level = "data/laby-02.dat"
 
