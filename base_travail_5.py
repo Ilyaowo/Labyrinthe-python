@@ -5,6 +5,7 @@ from map import carte
 from grid import Grid
 from utils import Pos
 from read_colors import read_color_parameters
+from keyboard import keyboard
 # pygame setup
 pygame.init()
 
@@ -38,55 +39,30 @@ show_grid = True
 show_pos = False
 
 keys= { "UP":0 , "DOWN":0, "LEFT":0, "RIGHT":0 }
+kb = keyboard(keys)
 
 player_pos = Pos(0,1)
-
-#tour de boucle, pour chaque FPS
-while running:
-
     #
     #   Gestion des I/O  
     #
     
     #   lecture clavier / souris
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
+while kb.running:
 
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_z or event.key == pygame.K_UP:
-                keys['UP'] = 1
-            if event.key == pygame.K_s or event.key == pygame.K_DOWN:
-                keys['DOWN'] = 1
-            if event.key == pygame.K_q or event.key == pygame.K_LEFT:
-                keys['LEFT'] = 1
-            if event.key == pygame.K_d or event.key == pygame.K_RIGHT:
-                keys['RIGHT'] = 1
+    kb.get()
+    keys = kb.k
+    kb.n += dt
 
-        if event.type == pygame.KEYUP:
-            if event.key == pygame.K_z or event.key == pygame.K_UP:
-                keys['UP'] = 0
-                next_move =1
-            if event.key == pygame.K_s or event.key == pygame.K_DOWN:
-                keys['DOWN'] = 0
-                next_move =1
-            if event.key == pygame.K_q or event.key == pygame.K_LEFT:
-                keys['LEFT'] = 0
-                next_move =1
-            if event.key == pygame.K_d or event.key == pygame.K_RIGHT:
-                keys['RIGHT'] = 0
-                next_move =1
-
-            if event.key == pygame.K_ESCAPE:
-                running = False
-            if event.key == pygame.K_g:
-                show_grid = not show_grid
-            if event.key == pygame.K_p:
-                show_pos = not show_pos
-        
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            pos = pygame.mouse.get_pos()
-            print("mouse_pos:", pos)
+    if kb.n>0:
+        new_x, new_y = player_pos.x, player_pos.y
+        if keys['UP'] == 1:
+            new_y -=1
+        elif keys['DOWN'] == 1:
+            new_y += 1
+        elif keys['LEFT'] == 1:
+            new_x -=1
+        elif keys['RIGHT'] == 1:
+            new_x += 1
 
     #
     # gestion des déplacements
