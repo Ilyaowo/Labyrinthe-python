@@ -39,7 +39,7 @@ dt = 0
 show_grid = True
 show_pos = False
 
-keys= { "UP":0 , "DOWN":0, "LEFT":0, "RIGHT":0 }
+keys= { "UP":0 , "DOWN":0, "LEFT":0, "RIGHT":0 , "HAUT":0, "BAS":0, "GAUCHE":0, "DROITE":0}
 kb = keyboard(keys)
 
 player_pos = Pos(0,1)
@@ -85,13 +85,13 @@ while kb.running:
         next2_move += dt
     if next2_move>0:
         new2_x, new2_y = player2_pos.x, player2_pos.y
-        if keys['UP'] == 1:
+        if keys['HAUT'] == 1:
             new2_y -=1
-        elif keys['DOWN'] == 1:
+        elif keys['BAS'] == 1:
             new2_y += 1
-        elif keys['LEFT'] == 1:
+        elif keys['GAUCHE'] == 1:
             new2_x -=1
-        elif keys['RIGHT'] == 1:
+        elif keys['DROITE'] == 1:
             new2_x += 1
 
         # vérification du déplacement du joueur                                    

@@ -38,6 +38,26 @@ class keyboard:
                     self.k['RIGHT'] = 0
                     self.n =1
 
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_UP:
+                    self.k['HAUT'] = 1
+                if event.key == pygame.K_DOWN:
+                    self.k['BAS'] = 1
+                if event.key == pygame.K_LEFT:
+                    self.k['GAUCHE'] = 1
+                if event.key == pygame.K_RIGHT:
+                    self.k['DROITE'] = 1
+
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_UP:
+                    self.k['HAUT'] = 0
+                if event.key == pygame.K_DOWN:
+                    self.k['BAS'] = 0
+                if event.key == pygame.K_LEFT:
+                    self.k['GAUCHE'] = 0
+                if event.key == pygame.K_RIGHT:
+                    self.k['DROITE'] = 0
+
                 if event.key == pygame.K_ESCAPE:
                     self.running = False
                 if event.key == pygame.K_g:
