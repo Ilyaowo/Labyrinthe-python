@@ -15,6 +15,7 @@ size = (20, 10) # taille du monde
 fps = 30 # fps du jeu
 player_speed = 150 # vitesse du joueur
 next_move = 0 #tic avant déplacement
+next2_move = 0
 
 # color
 read = read_color_parameters()
@@ -42,6 +43,7 @@ keys= { "UP":0 , "DOWN":0, "LEFT":0, "RIGHT":0 }
 kb = keyboard(keys)
 
 player_pos = Pos(0,1)
+player2_pos = Pos(3,3)
     #
     #   Gestion des I/O  
     #
@@ -80,10 +82,26 @@ while kb.running:
         elif keys['RIGHT'] == 1:
             new_x += 1
 
+        next2_move += dt
+    if next2_move>0:
+        new2_x, new2_y = player2_pos.x, player2_pos.y
+        if keys['UP'] == 1:
+            new2_y -=1
+        elif keys['DOWN'] == 1:
+            new2_y += 1
+        elif keys['LEFT'] == 1:
+            new2_x -=1
+        elif keys['RIGHT'] == 1:
+            new2_x += 1
+
         # vérification du déplacement du joueur                                    
         if not laby.hit_box(new_x, new_y):
             player_pos.x, player_pos.y = new_x, new_y
             next_move -= player_speed
+
+            if not laby.hit_box(new2_x, new2_y):
+                player2_pos.x, player2_pos.y = new2_x, new2_y
+                next2_move -= player_speed
 
         if show_pos:
             print("pos: ",player_pos)
@@ -99,6 +117,8 @@ while kb.running:
         grid.draw(screen)
 
     pygame.draw.rect(screen, color["player_color"], pygame.Rect(player_pos.x*tilesize, player_pos.y*tilesize, tilesize, tilesize))
+    pygame.draw.rect(screen, color["player2_color"], pygame.Rect(player2_pos.x*tilesize, player2_pos.y*tilesize, tilesize, tilesize))
+
 
     # affichage des modification du screen_view
     pygame.display.flip()
