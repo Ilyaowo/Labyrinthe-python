@@ -1,7 +1,7 @@
 # Example file showing a circle moving on screen
 import pygame 
 import random
-from labyrinthe import Labyrinthe
+from map import carte
 from grid import Grid
 from utils import Pos
 from read_colors import read_color_parameters
@@ -22,7 +22,7 @@ color = read.c
 
 level = "data/laby-02.dat"
 
-laby = Labyrinthe(size[0], size[1])
+laby = carte(size[0], size[1])
 laby.load_from_file(level)
 laby.set_color(color["wall_color"])
 

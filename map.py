@@ -1,7 +1,7 @@
 import pygame
 from utils import convert_data
 
-class Labyrinthe :
+class carte :
     # constructeur
     def __init__(self, sizeX, sizeY):
         """sizeX, sizeY désignent la taille du labyrinthe sur l'axe (x,y)"""
