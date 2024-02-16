@@ -22,7 +22,7 @@ read = read_color_parameters()
 read.readColors("color.ini")
 color = read.c
 
-level = "data/laby-03.dat"
+level = "data/tron_map.dat"
 
 laby = carte(size[0], size[1])
 laby.load_from_file(level)
@@ -102,10 +102,8 @@ while running:
                 if event.key == pygame.K_p:
                     if pause:
                         pause = False
-                        print(pause)
                     else:
                         pause = True
-                        print(pause)
     #
     # gestion des déplacements
     #
