@@ -50,8 +50,11 @@ player2_pos = Pos(3,45)
     #   Gestion des I/O  
     #
     
+
+    
     #   lecture clavier / souris
 running = True
+pause = False
 while running:
 
     # kb.get()
@@ -74,61 +77,73 @@ while running:
                 running = False
 
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_z:
-                    direction_player1 = (0, -1)
-                if event.key == pygame.K_s:
-                    direction_player1 = (0, 1)
-                if event.key == pygame.K_q:
-                    direction_player1 = (-1, 0)
-                if event.key == pygame.K_d:
-                    direction_player1 = (1, 0)
+                if not pause:
+                    if event.key == pygame.K_z:
+                        direction_player1 = (0, -1)
+                    if event.key == pygame.K_s:
+                        direction_player1 = (0, 1)
+                    if event.key == pygame.K_q:
+                        direction_player1 = (-1, 0)
+                    if event.key == pygame.K_d:
+                        direction_player1 = (1, 0)
 
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_UP:
-                    direction_player2 = (0, -1)
-                if event.key == pygame.K_DOWN:
-                    direction_player2 = (0, 1)
-                if event.key == pygame.K_LEFT:
-                    direction_player2 = (-1, 0)
-                if event.key == pygame.K_RIGHT:
-                    direction_player2 = (1, 0)
+                if not pause:
+                    if event.key == pygame.K_UP:
+                        direction_player2 = (0, -1)
+                    if event.key == pygame.K_DOWN:
+                        direction_player2 = (0, 1)
+                    if event.key == pygame.K_LEFT:
+                        direction_player2 = (-1, 0)
+                    if event.key == pygame.K_RIGHT:
+                        direction_player2 = (1, 0)
+                    
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_p:
+                    if pause:
+                        pause = False
+                        print(pause)
+                    else:
+                        pause = True
+                        print(pause)
     #
     # gestion des déplacements
     #
+    if not pause:
+        next_move += dt
+        if next_move> 1000 / fps:
+            new_x, new_y = player_pos.x, player_pos.y
+            if direction_player1 == (0, -1):
+                new_y -=1
+            elif direction_player1 == (0, 1):
+                new_y += 1
+            elif direction_player1 == (-1, 0):
+                new_x -=1
+            elif direction_player1 == (1, 0):
+                new_x += 1
+                
+            # vérification du déplacement du joueur                                    
+            if not laby.hit_box(new_x, new_y):
+                player_pos.x, player_pos.y = new_x, new_y
+                next_move -= player_speed
 
-    next_move += dt
-    if next_move> 1000 / fps:
-        new_x, new_y = player_pos.x, player_pos.y
-        if direction_player1 == (0, -1):
-            new_y -=1
-        elif direction_player1 == (0, 1):
-            new_y += 1
-        elif direction_player1 == (-1, 0):
-            new_x -=1
-        elif direction_player1 == (1, 0):
-            new_x += 1
-            
-        # vérification du déplacement du joueur                                    
-        if not laby.hit_box(new_x, new_y):
-            player_pos.x, player_pos.y = new_x, new_y
-            next_move -= player_speed
+    if not pause:
+        next2_move += dt
+        if next2_move> 1000 / fps:
+            new2_x, new2_y = player2_pos.x, player2_pos.y
+            if direction_player2 == (0, -1):
+                new2_y -=1
+            elif direction_player2 == (0, 1):
+                new2_y += 1
+            elif direction_player2 == (-1, 0):
+                new2_x -=1
+            elif direction_player2 == (1, 0):
+                new2_x += 1
 
-    next2_move += dt
-    if next2_move> 1000 / fps:
-        new2_x, new2_y = player2_pos.x, player2_pos.y
-        if direction_player2 == (0, -1):
-            new2_y -=1
-        elif direction_player2 == (0, 1):
-            new2_y += 1
-        elif direction_player2 == (-1, 0):
-            new2_x -=1
-        elif direction_player2 == (1, 0):
-            new2_x += 1
-
-        # vérification du déplacement du joueur                                    
-        if not laby.hit_box(new2_x, new2_y):
-            player2_pos.x, player2_pos.y = new2_x, new2_y
-            next2_move -= player_speed
+            # vérification du déplacement du joueur                                    
+            if not laby.hit_box(new2_x, new2_y):
+                player2_pos.x, player2_pos.y = new2_x, new2_y
+                next2_move -= player_speed
 
     if show_pos:
         print("position 1: ",player_pos, "position 2: ", player2_pos)
