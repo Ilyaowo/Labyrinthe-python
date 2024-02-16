@@ -16,6 +16,10 @@ fps = 30 # fps du jeu
 player_speed = 30 # vitesse du joueur
 next_move = 0 #tic avant déplacement
 next2_move = 0
+font = pygame.font.Font('freesansbold.ttf', 20)
+font2 = pygame.font.Font('freesansbold.ttf', 50)
+score = 0
+game_over = False
 
 # color
 read = read_color_parameters()
@@ -158,7 +162,17 @@ while running:
 
     pygame.draw.rect(screen, color["player_color"], pygame.Rect(player_pos.x*tilesize, player_pos.y*tilesize, tilesize, tilesize))
     pygame.draw.rect(screen, color["player2_color"], pygame.Rect(player2_pos.x*tilesize, player2_pos.y*tilesize, tilesize, tilesize))
+    
+    score_text = font.render('Score: '+ str(score), True, (255, 255, 255), (0, 0, 0))
+    screen.blit(score_text, (0, 0))
+    
+    if pause:
+        score_text = font2.render('Pause', True, (255, 255, 255), (0, 0, 0))
+        screen.blit(score_text, (280, 350))
 
+    if game_over == True:
+        game_over_text = font2.render('GAME OVER YEAH !', True, (255, 255, 255), (0, 0, 0))
+        screen.blit(game_over_text, (120, 300))
 
     # affichage des modification du screen_view
     pygame.display.flip()
