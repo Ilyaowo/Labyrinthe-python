@@ -18,7 +18,8 @@ next_move = 0 #tic avant déplacement
 next2_move = 0
 font = pygame.font.Font('freesansbold.ttf', 20)
 font2 = pygame.font.Font('freesansbold.ttf', 50)
-score = 0
+score_player1 = 0
+score_player2 = 0
 game_over = False
 
 # color
@@ -163,12 +164,15 @@ while running:
     pygame.draw.rect(screen, color["player_color"], pygame.Rect(player_pos.x*tilesize, player_pos.y*tilesize, tilesize, tilesize))
     pygame.draw.rect(screen, color["player2_color"], pygame.Rect(player2_pos.x*tilesize, player2_pos.y*tilesize, tilesize, tilesize))
     
-    score_text = font.render('Score: '+ str(score), True, (255, 255, 255), (0, 0, 0))
-    screen.blit(score_text, (0, 0))
+    score1_text = font.render('Score J1: '+ str(score_player1), True, (255, 255, 255), (0, 0, 0))
+    screen.blit(score1_text, (0, 0))
+    
+    score2_text = font.render('Score J2: '+ str(score_player2), True, (255, 255, 255), (0, 0, 0))
+    screen.blit(score2_text, (610, 0))
     
     if pause:
-        score_text = font2.render('Pause', True, (255, 255, 255), (0, 0, 0))
-        screen.blit(score_text, (280, 350))
+        pause_text = font2.render('Pause', True, (255, 255, 255), (0, 0, 0))
+        screen.blit(pause_text, (280, 350))
 
     if game_over == True:
         game_over_text = font2.render('GAME OVER YEAH !', True, (255, 255, 255), (0, 0, 0))
