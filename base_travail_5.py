@@ -20,7 +20,7 @@ font = pygame.font.Font('freesansbold.ttf', 20)
 font2 = pygame.font.Font('freesansbold.ttf', 50)
 score_player1 = 0
 score_player2 = 0
-game_over = False
+game_over = True
 
 # color
 read = read_color_parameters()
@@ -177,6 +177,16 @@ while running:
     if game_over == True:
         game_over_text = font2.render('GAME OVER YEAH !', True, (255, 255, 255), (0, 0, 0))
         screen.blit(game_over_text, (120, 300))
+        restart_game_button = pygame.draw.rect(screen, (0, 0, 0), [285, 350, 100, 20])
+        restart_text = font.render('Press to restart', True, (255, 255, 255), (0, 0, 0))
+        screen.blit(restart_text, (285, 350))
+        
+        
+    if event.type == pygame.MOUSEBUTTONDOWN and game_over == True:
+        if restart_game_button.collidepoint(event.pos):
+            game_over = False
+            player_pos = Pos(87,45)
+            player2_pos = Pos(3,45)
 
     # affichage des modification du screen_view
     pygame.display.flip()
