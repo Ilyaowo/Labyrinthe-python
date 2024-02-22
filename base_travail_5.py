@@ -20,7 +20,9 @@ font = pygame.font.Font('freesansbold.ttf', 20)
 font2 = pygame.font.Font('freesansbold.ttf', 50)
 score_player1 = 0
 score_player2 = 0
-game_over = True
+game_over = False
+J1_loose = False
+J2_loose = False
 
 # color
 read = read_color_parameters()
@@ -51,6 +53,8 @@ direction_player2 = (1, 0)
 
 player_pos = Pos(87,45)
 player2_pos = Pos(3,45)
+player_pos_line = []
+player2_pos_line = []
     #
     #   Gestion des I/O  
     #
@@ -115,6 +119,7 @@ while running:
     if not pause:
         next_move += dt
         if next_move> 1000 / fps:
+            player_pos_line.append((player_pos.x, player_pos.y))
             new_x, new_y = player_pos.x, player_pos.y
             if direction_player1 == (0, -1):
                 new_y -=1
@@ -133,6 +138,7 @@ while running:
     if not pause:
         next2_move += dt
         if next2_move> 1000 / fps:
+            player2_pos_line.append((player2_pos.x, player2_pos.y))  
             new2_x, new2_y = player2_pos.x, player2_pos.y
             if direction_player2 == (0, -1):
                 new2_y -=1
@@ -151,6 +157,15 @@ while running:
     if show_pos:
         print("position 1: ",player_pos, "position 2: ", player2_pos)
 
+    #print(player2_pos)
+    #print(player_pos_line)
+
+    if (player2_pos.x,player2_pos.y) in player2_pos_line or (player2_pos.x,player2_pos.y) in player_pos_line:
+        print("player 2 perdu")
+
+    if (player_pos.x,player_pos.y) in player2_pos_line or (player_pos.x,player_pos.y) in player_pos_line:
+        print("player 1 perdu")
+
     #
     # affichage des différents composants graphique
     #
@@ -163,6 +178,11 @@ while running:
 
     pygame.draw.rect(screen, color["player_color"], pygame.Rect(player_pos.x*tilesize, player_pos.y*tilesize, tilesize, tilesize))
     pygame.draw.rect(screen, color["player2_color"], pygame.Rect(player2_pos.x*tilesize, player2_pos.y*tilesize, tilesize, tilesize))
+    for elt in player_pos_line:
+        pygame.draw.rect(screen, color["line_color"], pygame.Rect(elt[0]*tilesize, elt[1]*tilesize, tilesize, tilesize))
+    for elt in player2_pos_line:
+        pygame.draw.rect(screen, color["line2_color"], pygame.Rect(elt[0]*tilesize, elt[1]*tilesize, tilesize, tilesize))
+    
     
     score1_text = font.render('Score J1: '+ str(score_player1), True, (255, 255, 255), (0, 0, 0))
     screen.blit(score1_text, (0, 0))
