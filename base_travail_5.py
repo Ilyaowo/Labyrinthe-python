@@ -113,6 +113,8 @@ while running:
                         pause = False
                     else:
                         pause = True
+                if event.key == pygame.K_ESCAPE:
+                    running = False
     #
     # gestion des déplacements
     #
@@ -161,10 +163,14 @@ while running:
     #print(player_pos_line)
 
     if (player2_pos.x,player2_pos.y) in player2_pos_line or (player2_pos.x,player2_pos.y) in player_pos_line:
-        print("player 2 perdu")
+        #print("player 2 perdu")
+        J2_loose = True
+        score_player1 += 1
 
     if (player_pos.x,player_pos.y) in player2_pos_line or (player_pos.x,player_pos.y) in player_pos_line:
-        print("player 1 perdu")
+        #print("player 1 perdu")
+        J1_loose = True
+        score_player2 += 1
 
     #
     # affichage des différents composants graphique
@@ -188,11 +194,17 @@ while running:
     screen.blit(score1_text, (0, 0))
     
     score2_text = font.render('Score J2: '+ str(score_player2), True, (255, 255, 255), (0, 0, 0))
-    screen.blit(score2_text, (610, 0))
+    screen.blit(score2_text, (600, 0))
     
     if pause:
         pause_text = font2.render('Pause', True, (255, 255, 255), (0, 0, 0))
         screen.blit(pause_text, (280, 350))
+        
+    if J1_loose == True:
+        direction_player1 = 0
+    
+    if J2_loose == True:
+        direction_player2 = 0
 
     if game_over == True:
         game_over_text = font2.render('GAME OVER YEAH !', True, (255, 255, 255), (0, 0, 0))
