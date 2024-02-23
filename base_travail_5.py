@@ -46,13 +46,13 @@ dt = 0
 show_grid = True
 show_pos = False
 
-direction_player1 = (-1, 0)
-direction_player2 = (1, 0)
+direction_player1 = (1, 0)
+direction_player2 = (-1, 0)
 # keys= { "UP":0 , "DOWN":0, "LEFT":0, "RIGHT":0 , "HAUT":0, "BAS":0, "GAUCHE":0, "DROITE":0}
 # kb = keyboard(keys)
 
-player_pos = Pos(87,45)
-player2_pos = Pos(3,45)
+player_pos = Pos(3,45)
+player2_pos = Pos(87,45)
 player_pos_line = []
 player2_pos_line = []
     #
@@ -162,16 +162,27 @@ while running:
     #print(player2_pos)
     #print(player_pos_line)
 
-    if (player2_pos.x,player2_pos.y) in player2_pos_line or (player2_pos.x,player2_pos.y) in player_pos_line:
-        #print("player 2 perdu")
-        J2_loose = True
-        score_player1 += 1
+    if not pause:
+        if (player2_pos.x,player2_pos.y) in player2_pos_line or (player2_pos.x,player2_pos.y) in player_pos_line:
+            #print("player 2 perdu")
+            J2_loose = True
+            score_player1 += 1
 
-    if (player_pos.x,player_pos.y) in player2_pos_line or (player_pos.x,player_pos.y) in player_pos_line:
-        #print("player 1 perdu")
-        J1_loose = True
-        score_player2 += 1
+        if (player_pos.x,player_pos.y) in player2_pos_line or (player_pos.x,player_pos.y) in player_pos_line:
+            #print("player 1 perdu")
+            J1_loose = True
+            score_player2 += 1
+    
+    if J1_loose == True:
+        score_player1 =+0
+        direction_player1 = 0
 
+    if J2_loose == True:
+        score_player2 =+0
+        direction_player2 = 0
+
+    if J1_loose and J2_loose:
+        game_over = True
     #
     # affichage des différents composants graphique
     #
