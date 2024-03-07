@@ -87,52 +87,68 @@ while running:
     #       new_x += 1
 
     for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+        if event.type == pygame.QUIT:
+            running = False
+
+        if event.type == pygame.KEYDOWN:
+            if not pause and not J1_loose == True:
+                if event.key == pygame.K_z:
+                    direction_player1 = (0, -1)
+                    score_player1 += 1
+                if event.key == pygame.K_s:
+                    direction_player1 = (0, 1)
+                    score_player1 += 1
+                if event.key == pygame.K_q:
+                    direction_player1 = (-1, 0)
+                    score_player1 += 1
+                if event.key == pygame.K_d:
+                    direction_player1 = (1, 0)
+                    score_player1 += 1
+
+        if event.type == pygame.KEYDOWN:
+            if not pause and not J2_loose == True:
+                if event.key == pygame.K_UP:
+                    direction_player2 = (0, -1)
+                    score_player2 += 1
+                if event.key == pygame.K_DOWN:
+                    direction_player2 = (0, 1)
+                    score_player2 += 1
+                if event.key == pygame.K_LEFT:
+                    direction_player2 = (-1, 0)
+                    score_player2 += 1
+                if event.key == pygame.K_RIGHT:
+                    direction_player2 = (1, 0)
+                    score_player2 += 1
+                
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_p:
+                if pause:
+                    pause = False
+                else:
+                    pause = True
+                    pause_sfx.play()
+            if event.key == pygame.K_ESCAPE:
                 running = False
-
-            if event.type == pygame.KEYDOWN:
-                if not pause and not J1_loose == True:
-                    if event.key == pygame.K_z:
-                        direction_player1 = (0, -1)
-                        score_player1 += 1
-                    if event.key == pygame.K_s:
-                        direction_player1 = (0, 1)
-                        score_player1 += 1
-                    if event.key == pygame.K_q:
-                        direction_player1 = (-1, 0)
-                        score_player1 += 1
-                    if event.key == pygame.K_d:
-                        direction_player1 = (1, 0)
-                        score_player1 += 1
-
-            if event.type == pygame.KEYDOWN:
-                if not pause and not J2_loose == True:
-                    if event.key == pygame.K_UP:
-                        direction_player2 = (0, -1)
-                        score_player2 += 1
-                    if event.key == pygame.K_DOWN:
-                        direction_player2 = (0, 1)
-                        score_player2 += 1
-                    if event.key == pygame.K_LEFT:
-                        direction_player2 = (-1, 0)
-                        score_player2 += 1
-                    if event.key == pygame.K_RIGHT:
-                        direction_player2 = (1, 0)
-                        score_player2 += 1
-                    
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_p:
-                    if pause:
-                        pause = False
-                    else:
-                        pause = True
-                        pause_sfx.play()
-                if event.key == pygame.K_ESCAPE:
-                    running = False
+                
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if game_over:
+                if restart_game_button.collidepoint(event.pos):
+                    game_over = False
+                    J1_loose = False
+                    J2_loose = False
+                    player_pos = Pos(87, 45)
+                    player2_pos = Pos(3, 45)
+                    player_pos_line = []
+                    player2_pos_line = []
+                    next_move = 0
+                    next2_move = 0
+                    direction_player1 = (-1, 0)
+                    direction_player2 = (1, 0)
+                    game_over_sfx.stop()
     #
     # gestion des déplacements
     #
-    if not pause and not J1_loose == True:
+    if not pause and not J1_loose == True and game_over != True:
         next_move += dt
         if next_move> 1000 / fps:
             player_pos_line.append((player_pos.x, player_pos.y))
@@ -151,7 +167,7 @@ while running:
                 player_pos.x, player_pos.y = new_x, new_y
                 next_move -= player_speed
 
-    if not pause and not J2_loose == True:
+    if not pause and not J2_loose == True and game_over != True:
         next2_move += dt
         if next2_move> 1000 / fps:
             player2_pos_line.append((player2_pos.x, player2_pos.y))  
@@ -170,20 +186,20 @@ while running:
                 player2_pos.x, player2_pos.y = new2_x, new2_y
                 next2_move -= player_speed
 
-    if show_pos:
+    if show_pos and game_over != True:
         print("position 1: ",player_pos, "position 2: ", player2_pos)
 
     #print(player2_pos)
     #print(player_pos_line)
 
-    if J2_loose != True:
+    if J2_loose != True and game_over != True:
         if (player2_pos.x,player2_pos.y) in player2_pos_line or (player2_pos.x,player2_pos.y) in player_pos_line:
                 #print("player 2 perdu")
                 loose_sfx.play()
                 J2_loose = True
                 score_player1 += 1
 
-    if J1_loose != True:
+    if J1_loose != True and game_over != True:
         if (player_pos.x,player_pos.y) in player2_pos_line or (player_pos.x,player_pos.y) in player_pos_line:
                 #print("player 1 perdu")
                 loose_sfx.play()
@@ -225,8 +241,8 @@ while running:
         direction_player2 = 0
         
     if J1_loose == True and J2_loose == True:
-        game_over = True
         game_over_sfx.play()
+        game_over = True
 
     if game_over == True:
         game_over_text = font2.render('GAME OVER YEAH !', True, (255, 255, 255), (0, 0, 0))
@@ -235,16 +251,9 @@ while running:
         restart_text = font.render('Press to restart', True, (255, 255, 255), (0, 0, 0))
         screen.blit(restart_text, (285, 350))
         
-        
-    if event.type == pygame.MOUSEBUTTONDOWN and game_over == True:
-        if restart_game_button.collidepoint(event.pos):
-            game_over = False
-            player_pos = Pos(87,45)
-            player2_pos = Pos(3,45)
-
     # affichage des modification du screen_view
     pygame.display.flip()
     # gestion fps
     dt = clock.tick(fps)
-
+    
 pygame.quit()
