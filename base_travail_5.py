@@ -86,26 +86,34 @@ while running:
                 running = False
 
             if event.type == pygame.KEYDOWN:
-                if not pause:
+                if not pause and not J1_loose == True:
                     if event.key == pygame.K_z:
                         direction_player1 = (0, -1)
+                        score_player1 += 1
                     if event.key == pygame.K_s:
                         direction_player1 = (0, 1)
+                        score_player1 += 1
                     if event.key == pygame.K_q:
                         direction_player1 = (-1, 0)
+                        score_player1 += 1
                     if event.key == pygame.K_d:
                         direction_player1 = (1, 0)
+                        score_player1 += 1
 
             if event.type == pygame.KEYDOWN:
-                if not pause:
+                if not pause and not J2_loose == True:
                     if event.key == pygame.K_UP:
                         direction_player2 = (0, -1)
+                        score_player2 += 1
                     if event.key == pygame.K_DOWN:
                         direction_player2 = (0, 1)
+                        score_player2 += 1
                     if event.key == pygame.K_LEFT:
                         direction_player2 = (-1, 0)
+                        score_player2 += 1
                     if event.key == pygame.K_RIGHT:
                         direction_player2 = (1, 0)
+                        score_player2 += 1
                     
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_p:
@@ -118,7 +126,7 @@ while running:
     #
     # gestion des déplacements
     #
-    if not pause:
+    if not pause and not J1_loose == True:
         next_move += dt
         if next_move> 1000 / fps:
             player_pos_line.append((player_pos.x, player_pos.y))
@@ -137,7 +145,7 @@ while running:
                 player_pos.x, player_pos.y = new_x, new_y
                 next_move -= player_speed
 
-    if not pause:
+    if not pause and not J2_loose == True:
         next2_move += dt
         if next2_move> 1000 / fps:
             player2_pos_line.append((player2_pos.x, player2_pos.y))  
