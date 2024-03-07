@@ -27,6 +27,7 @@ J2_loose = False
 #sfx
 loose_sfx = pygame.mixer.Sound("loose.mp3")
 game_over_sfx = pygame.mixer.Sound("game_over.mp3")
+pause_sfx = pygame.mixer.Sound("pause.mp3")
 
 # color
 read = read_color_parameters()
@@ -125,6 +126,7 @@ while running:
                         pause = False
                     else:
                         pause = True
+                        pause_sfx.play()
                 if event.key == pygame.K_ESCAPE:
                     running = False
     #
