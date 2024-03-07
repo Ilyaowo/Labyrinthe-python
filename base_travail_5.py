@@ -24,6 +24,10 @@ game_over = False
 J1_loose = False
 J2_loose = False
 
+#sfx
+loose_sfx = pygame.mixer.Sound("loose.mp3")
+game_over_sfx = pygame.mixer.Sound("game_over.mp3")
+
 # color
 read = read_color_parameters()
 read.readColors("color.ini")
@@ -173,12 +177,14 @@ while running:
     if J2_loose != True:
         if (player2_pos.x,player2_pos.y) in player2_pos_line or (player2_pos.x,player2_pos.y) in player_pos_line:
                 #print("player 2 perdu")
+                loose_sfx.play()
                 J2_loose = True
                 score_player1 += 1
 
     if J1_loose != True:
         if (player_pos.x,player_pos.y) in player2_pos_line or (player_pos.x,player_pos.y) in player_pos_line:
                 #print("player 1 perdu")
+                loose_sfx.play()
                 J1_loose = True
                 score_player2 += 1
 
@@ -215,6 +221,10 @@ while running:
     
     if J2_loose == True:
         direction_player2 = 0
+        
+    if J1_loose == True and J2_loose == True:
+        game_over = True
+        game_over_sfx.play()
 
     if game_over == True:
         game_over_text = font2.render('GAME OVER YEAH !', True, (255, 255, 255), (0, 0, 0))
