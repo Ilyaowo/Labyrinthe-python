@@ -1,6 +1,7 @@
 # Example file showing a circle moving on screen
 import pygame 
 import random
+import time
 from map import carte
 from grid import Grid
 from utils import Pos
@@ -25,9 +26,9 @@ J1_loose = False
 J2_loose = False
 
 #sfx
-loose_sfx = pygame.mixer.Sound("loose.mp3")
-game_over_sfx = pygame.mixer.Sound("game_over.mp3")
-pause_sfx = pygame.mixer.Sound("pause.mp3")
+loose_sfx = pygame.mixer.Sound("sound/loose.mp3")
+game_over_sfx = pygame.mixer.Sound("sound/game_over.mp3")
+pause_sfx = pygame.mixer.Sound("sound/pause.mp3")
 
 # color
 read = read_color_parameters()
@@ -51,15 +52,17 @@ dt = 0
 show_grid = True
 show_pos = False
 
-direction_player1 = (-1, 0)
-direction_player2 = (1, 0)
+direction_player1 = (1, 0)
+direction_player2 = (-1, 0)
 # keys= { "UP":0 , "DOWN":0, "LEFT":0, "RIGHT":0 , "HAUT":0, "BAS":0, "GAUCHE":0, "DROITE":0}
 # kb = keyboard(keys)
 
-player_pos = Pos(87,45)
-player2_pos = Pos(3,45)
+player_pos = Pos(3,45)
+player2_pos = Pos(87,45)
 player_pos_line = []
 player2_pos_line = []
+randomwall = []
+nbr_wall=0
     #
     #   Gestion des I/O  
     #
@@ -87,8 +90,16 @@ while running:
     #       new_x += 1
 
     for event in pygame.event.get():
+        
         if event.type == pygame.QUIT:
             running = False
+    
+        if not pause:
+            first_pos = (random.randrange(2, 89),random.randrange(2, 37))
+            second_pos = (random.randrange(2, 89),random.randrange(53, 89))
+            randomwall.append(first_pos)
+            randomwall.append(second_pos)
+
 
         if event.type == pygame.KEYDOWN:
             if not pause and not J1_loose == True:
@@ -136,14 +147,16 @@ while running:
                     game_over = False
                     J1_loose = False
                     J2_loose = False
-                    player_pos = Pos(87, 45)
-                    player2_pos = Pos(3, 45)
+                    player_pos = Pos(3,45)
+                    player2_pos = Pos(87,45)
                     player_pos_line = []
                     player2_pos_line = []
+                    randomwall = []
+                    nbr_wall=0
                     next_move = 0
                     next2_move = 0
-                    direction_player1 = (-1, 0)
-                    direction_player2 = (1, 0)
+                    direction_player1 = (1, 0)
+                    direction_player2 = (-1, 0)
                     game_over_sfx.stop()
     #
     # gestion des déplacements
@@ -180,7 +193,7 @@ while running:
                 new2_x -=1
             elif direction_player2 == (1, 0):
                 new2_x += 1
-
+    
             # vérification du déplacement du joueur                                    
             if not laby.hit_box(new2_x, new2_y):
                 player2_pos.x, player2_pos.y = new2_x, new2_y
@@ -193,14 +206,14 @@ while running:
     #print(player_pos_line)
 
     if J2_loose != True and game_over != True:
-        if (player2_pos.x,player2_pos.y) in player2_pos_line or (player2_pos.x,player2_pos.y) in player_pos_line:
+        if (player2_pos.x,player2_pos.y) in player2_pos_line or (player2_pos.x,player2_pos.y) in player_pos_line or (player2_pos.x,player2_pos.y) in randomwall:
                 #print("player 2 perdu")
                 loose_sfx.play()
                 J2_loose = True
                 score_player1 += 1
 
     if J1_loose != True and game_over != True:
-        if (player_pos.x,player_pos.y) in player2_pos_line or (player_pos.x,player_pos.y) in player_pos_line:
+        if (player_pos.x,player_pos.y) in player2_pos_line or (player_pos.x,player_pos.y) in player_pos_line or (player_pos.x,player_pos.y) in randomwall:
                 #print("player 1 perdu")
                 loose_sfx.play()
                 J1_loose = True
@@ -218,6 +231,8 @@ while running:
 
     pygame.draw.rect(screen, color["player_color"], pygame.Rect(player_pos.x*tilesize, player_pos.y*tilesize, tilesize, tilesize))
     pygame.draw.rect(screen, color["player2_color"], pygame.Rect(player2_pos.x*tilesize, player2_pos.y*tilesize, tilesize, tilesize))
+    for elt in randomwall:
+        pygame.draw.rect(screen, color["wall_color"], pygame.Rect(elt[0]*tilesize, elt[1]*tilesize, tilesize, tilesize))
     for elt in player_pos_line:
         pygame.draw.rect(screen, color["line_color"], pygame.Rect(elt[0]*tilesize, elt[1]*tilesize, tilesize, tilesize))
     for elt in player2_pos_line:
